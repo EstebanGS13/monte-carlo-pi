@@ -6,8 +6,9 @@
 double get_cpu_time() { return (double)clock() / CLOCKS_PER_SEC; }
 
 long long quick_pow10(int n) {
-    static long long pow10[12] = {1,       10,       100,       1000,       10000,       100000,
-                                  1000000, 10000000, 100000000, 1000000000, 10000000000, 100000000000};
+    static long long pow10[12] = {
+        1,       10,       100,       1000,       10000,       100000,
+        1000000, 10000000, 100000000, 1000000000, 10000000000, 100000000000};
 
     return pow10[n];
 }
@@ -21,6 +22,10 @@ int main(int argc, char const *argv[]) {
     const double factor = 1.0 / RAND_MAX;
 
     int exponent = atoi(argv[1]);
+    if (exponent > 11) {
+        fprintf(stderr, "Error: n es demasiado grande");
+        return -1;
+    }
     long long n = quick_pow10(exponent);
     long long i, hits;
     double x, y;
@@ -42,7 +47,8 @@ int main(int argc, char const *argv[]) {
 
     double pi_approx = 4.0 * hits / n;
     double error = fabs(M_PI - pi_approx) / M_PI * 100;
-    printf("Tosses: %lld, hits: %lld, pi_approx: %f, error: %f%%\n", n, hits, pi_approx, error);
+    printf("Tosses: %lld, hits: %lld, pi_approx: %f, error: %f%%\n", n, hits,
+           pi_approx, error);
 
     // Escribir resultados en un archivo
     FILE *file = fopen("dartboard_seq.csv", "a");
@@ -50,7 +56,8 @@ int main(int argc, char const *argv[]) {
         printf("No se puede abrir dartboard_seq.csv");
         return -1;
     }
-    fprintf(file, "%d, %lld, %lld, %f, %f, %f\n", exponent, n, hits, pi_approx, error, elapsed);
+    fprintf(file, "%d, %lld, %lld, %f, %f, %f\n", exponent, n, hits, pi_approx,
+            error, elapsed);
     fclose(file);
 
     return 0;

@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
     // Comenzar a medir el tiempo
     double begin = get_cpu_time();
 
-    // Darboard algorithm
+    // Dartboard algorithm
     for (i = hits = 0; i < n; i++) {
         x = rand() * factor;
         y = rand() * factor;

@@ -13,7 +13,7 @@ scp -r /home/cluser/monte-carlo cluser@wn3:/home/cluser/monte-carlo/
 # MPI opt
 for i in {1..5}; do
     for j in 2 4 10; do
-        for k in {7..10}; do
+        for k in {6..9}; do
             mpirun -np $j -hosts head,wn1,wn2,wn3 ./dart_mpi_opt $k
         done
     done
@@ -23,7 +23,7 @@ mv dartboard_mpi.csv dartboard_mpi_opt.csv
 # MPI
 for i in {1..5}; do
     for j in 2 4 10; do
-        for k in {7..10}; do
+        for k in {6..9}; do
             mpirun -np $j -hosts head,wn1,wn2,wn3 ./dart_mpi $k
         done
     done
@@ -31,7 +31,7 @@ done
 
 # Seq opt
 for i in {1..5}; do
-    for j in {7..10}; do
+    for j in {6..9}; do
         ./dart_seq_opt $j
     done
 done
@@ -39,7 +39,7 @@ mv dartboard_seq.csv dartboard_seq_opt.csv
 
 # Seq
 for i in {1..5}; do
-    for j in {7..10}; do
+    for j in {6..9}; do
         ./dart_seq $j
     done
 done

@@ -13,6 +13,17 @@ long long quick_pow10(int n) {
     return pow10[n];
 }
 
+long long dartboard(int n, const double factor) {
+    long long i, hits;
+    double x, y;
+    for (i = hits = 0; i < n; i++) {
+        x = rand() * factor;
+        y = rand() * factor;
+        if (x * x + y * y < 1.0) hits++;
+    }
+    return hits;
+}
+
 int main(int argc, char const *argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Error. Digite el exponente de 10");
@@ -27,18 +38,12 @@ int main(int argc, char const *argv[]) {
         return -1;
     }
     long long n = quick_pow10(exponent);
-    long long i, hits;
-    double x, y;
 
     // Comenzar a medir el tiempo
     double begin = get_cpu_time();
 
     // Dartboard algorithm
-    for (i = hits = 0; i < n; i++) {
-        x = rand() * factor;
-        y = rand() * factor;
-        if (x * x + y * y < 1.0) hits++;
-    }
+    long long hits = dartboard(n, factor);
 
     // Detener la medición del tiempo y calcular el tiempo transcurrido
     double end = get_cpu_time();
@@ -47,8 +52,7 @@ int main(int argc, char const *argv[]) {
 
     double pi_approx = 4.0 * hits / n;
     double error = fabs(M_PI - pi_approx) / M_PI * 100;
-    printf("Tosses: %lld, hits: %lld, pi_approx: %f, error: %f%%\n", n, hits,
-           pi_approx, error);
+    printf("Tosses: %lld, hits: %lld, pi_approx: %f, error: %f%%\n", n, hits, pi_approx, error);
 
     // Escribir resultados en un archivo
     FILE *file = fopen("dartboard_seq.csv", "a");
@@ -56,8 +60,7 @@ int main(int argc, char const *argv[]) {
         printf("No se puede abrir dartboard_seq.csv");
         return -1;
     }
-    fprintf(file, "%d, %lld, %lld, %f, %f, %f\n", exponent, n, hits, pi_approx,
-            error, elapsed);
+    fprintf(file, "%d, %lld, %lld, %f, %f, %f\n", exponent, n, hits, pi_approx, error, elapsed);
     fclose(file);
 
     return 0;
